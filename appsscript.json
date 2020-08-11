@@ -1,13 +1,11 @@
 {
   "timeZone": "America/New_York",
-  "dependencies": {
-  },
+  "dependencies": {},
   "webapp": {
-    "access": "MYSELF",
+    "access": "ANYONE_ANONYMOUS",
     "executeAs": "USER_DEPLOYING"
   },
-  "oauthScopes": [
-  	"https://www.googleapis.com/auth/spreadsheets"
-  ],
-  "exceptionLogging": "STACKDRIVER"
+
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8"
 }

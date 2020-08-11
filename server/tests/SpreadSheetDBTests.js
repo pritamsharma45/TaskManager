@@ -1,4 +1,4 @@
-import {make_match_formula} from '../src/classes/SpreadSheetDb.js';
+import SpreadsheetDB, {make_match_formula} from '../src/classes/SpreadSheetDb.js';
 const chai = require("chai");
 const expect = chai.expect;
 
@@ -13,3 +13,4 @@ describe("SpreadSheetDB tests", function()
 
   
 });
+

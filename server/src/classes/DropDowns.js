@@ -1,32 +1,33 @@
 'use strict';
-class ColumnNames
+class Dropdowns
 {
-	constructor(column_names)
+	constructor(DD_Names)
 	{
-		this.column_names = column_names;
+		this.DD_Names = DD_Names;
 	}
 
 	getColNumber(name)
 	{
-		for(let c = 0; c < this.column_names.length;c++)
+		for(let c = 0; c < this.DD_Names.length;c++)
 		{
-			if(this.column_names[c] == name)
+			if(this.DD_Names[c] == name)
 			{
 				return c+1;
 			}
 		}
 		return 0;
-	}
-	makeJsonOneRow(row)
+    }
+    
+   
+	makeJsonOneColumn(columnData)
 	{
 		let rec = { };
-		for(let col=0; col < row.length; col++ )
+		for(let r=0; r < columnData.length; r++ )
 		{
-			rec[this.column_names[col]] = row[col];
+			rec[this.DD_Names[r]] = columnData[r];
 		}
 		return rec;
 	}
-	
 	makeJson(datamx,start=0)
 	{
 		let ret=[];
@@ -44,16 +45,16 @@ class ColumnNames
 
 	getLastColLabel()
 	{
-		return col_number_to_label(this.column_names.length);
+		return col_number_to_label(this.DD_Names.length);
 	}
 	jsonToRow(rec)
 	{
 		let row = []
-		for(let c = 0; c < this.column_names.length;c++)
+		for(let c = 0; c < this.DD_Names.length;c++)
 		{
-			if(typeof rec[this.column_names[c]] !== 'undefined')
+			if(typeof rec[this.DD_Names[c]] !== 'undefined')
 			{
-				row.push(rec[this.column_names[c]] );
+				row.push(rec[this.DD_Names[c]] );
 			}
 			else
 			{

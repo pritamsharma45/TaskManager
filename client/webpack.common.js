@@ -1,58 +1,53 @@
-const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const path = require("path");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackInlineSourcePlugin = require("html-webpack-inline-source-plugin");
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
-	entry: {
-	app: './client/src/main.js'
-	},
-	 module: {
+  entry: {
+    app: "./client/src/main.js"
+  },
+  module: {
     rules: [
       {
         test: /\.(scss)$/,
         use: [
           {
             // Adds CSS to the DOM by injecting a `<style>` tag
-            loader: 'style-loader'
+            loader: "style-loader"
           },
           {
             // Interprets `@import` and `url()` like `import/require()` and will resolve them
-            loader: 'css-loader'
+            loader: "css-loader"
           },
           {
             // Loader for webpack to process CSS with PostCSS
-            loader: 'postcss-loader',
+            loader: "postcss-loader",
             options: {
-              plugins: function () {
-                return [
-                  require('autoprefixer')
-                ];
+              plugins: function() {
+                return [require("autoprefixer")];
               }
             }
           },
           {
             // Loads a SASS/SCSS file and compiles it to CSS
-            loader: 'sass-loader'
+            loader: "sass-loader"
           }
         ]
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: "vue-loader"
       }
     ]
-  	},
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js'
-        },
-        extensions: ['*', '.js', '.vue', '.json']
+  },
+  resolve: {
+    alias: {
+      vue$: "vue/dist/vue.esm.js"
     },
-    plugins: [
-      new VueLoaderPlugin()
-    ]
-
-
+    extensions: ["*", ".js", ".vue", ".json"]
+  },
+ 
+  plugins: [new VueLoaderPlugin()]
 };
