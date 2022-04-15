@@ -9,7 +9,17 @@ module.exports = {
     app: "./client/src/main.js"
   },
   module: {
-    rules: [
+    rules: [{
+      test: /\.css$/,
+      use: [
+       
+        {
+          // Interprets `@import` and `url()` like `import/require()` and will resolve them
+          loader: "css-loader"
+        }
+       
+      ]},
+
       {
         test: /\.(scss)$/,
         use: [

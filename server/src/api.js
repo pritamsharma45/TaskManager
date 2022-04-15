@@ -1,462 +1,304 @@
+var _ = LodashGS.load();
+var moment = Moment.moment;
+
 function doGet() {
-  return HtmlService.createTemplateFromFile("index")
+  var page = "index";
+  //    ---- Enable trail Features
+  // if (_underTrial() === "EXPIRED" && _checkIfLicensed() == false) {
+  //   page = "expired";
+  // }
+  return HtmlService.createTemplateFromFile(page)
     .evaluate()
     .setFaviconUrl("https://heartstchr.github.io/img/borl.png")
-    .setTitle("VBPL APP")
+    .setTitle("Task Manager")
     .addMetaTag("viewport", "width=device-width, initial-scale=1");
 }
 
-function getRequestApp() {
-  return new AppLib.RequestsApp(
-    "https://docs.googlhttps://docs.google.com/spreadsheets/d/1o3dDrE3layPQkpmrN2tYdiJ5OvRCjFKHn4czPiZPicY/edit#gid=0e.com/spreadsheets/d/15KRD5eLNMkOEfsoP-5FQybEnUoqtKGMLbR3ilId9V-I/edit"
-  );
+// function onOpen(e) {
+//   var uiMenu = SpreadsheetApp.getUi().createMenu("Task Manager");
+
+//   uiMenu
+//     .addSubMenu(
+//       SpreadsheetApp.getUi()
+//         .createMenu("Advanced Settings")
+//         .addItem("Clear old data", "clearAll")
+//         .addItem("Upload your customer's data", "showSideForUploadingCustomers")
+//       // .addItem("Test with dummy data", "myThirdFunction")
+//     )
+//     .addToUi();
+
+//   if (_trialStarted() == false) {
+//     uiMenu
+//       .addItem("Click to start your trial or first use.", "resetForFirstUse")
+//       .addSeparator()
+//       .addToUi();
+//   }
+//   if (_checkIfLicensed() == false) {
+//     uiMenu
+//       .addItem("Enter License Key", "showLicensePrompt")
+//       .addSeparator()
+//       .addToUi();
+//   }
+//   if (_underTrial() === "UNDER_TRIAL") {
+//     uiMenu
+//       .addItem("This is under trial", "showLicensePrompt")
+//       .addSeparator()
+//       .addToUi();
+//   }
+//   if (_underTrial() === "EXPIRED") {
+//     uiMenu
+//       .addItem("Trial expired", "showLicensePrompt")
+//       .addSeparator()
+//       .addToUi();
+//   }
+// }
+// function showLicensePrompt() {
+//   var ui = SpreadsheetApp.getUi(); // Same variations.
+
+//   var result = ui.prompt("Enter license key", ui.ButtonSet.OK_CANCEL);
+//   var button = result.getSelectedButton();
+//   var text = result.getResponseText();
+//   if (button == ui.Button.OK) {
+//     if (matchLicenseKey(text) == true) {
+//       ui.alert("Thank you for purchasing the product.!");
+//     } else {
+//       ui.alert("You have entered the wrong key.!");
+//     }
+//   }
+// }
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
-function loadRequests() {
-  return getRequestApp().getNewRequests();
-}
+//  Upload fields
+function saveFile2(obj) {
+  const FOLDER_ID = "138xQI8p87KZk0vDe2qz_ExBiVJe1Dzfp";
+  // const FOLDER_ID = "1-1NjFcvFik87CiXnkv-M3_sV3ncxAYeE"; //Gurneet ID
 
-function getHistory(criteria, columnName, sheetName) {
-  return getRequestApp().getHistory(criteria, columnName, sheetName);
-}
-
-function getNotificationObject() {
-  return getRequestApp().getNotificationObject();
-}
-
-function getNotificationTableItems(sheetName) {
-  return getRequestApp().getNotificationTableItems(sheetName);
-}
-
-function getNotifsJurisdictionWise(location) {
-  return getRequestApp().getNotifsJurisdictionWise(location);
-}
-function getActivitiesJurisdictionWise(location) {
-  return getRequestApp().getActivitiesJurisdictionWise(location);
-}
-function loadHeaders() {
-  return getRequestApp().getHeaderRow();
-}
-
-function requestDetails(id) {
-  return getRequestApp().requestDetails(id);
-}
-
-function approveRequest(id, updateObj) {
-  return getRequestApp().approveRequest(id, updateObj);
-}
-
-function witeToRow(id, updateObj, sheetName) {
-  return getRequestApp().writeToRow(id, updateObj, sheetName);
-}
-
-function rejectRequest(id) {
-  return getRequestApp().rejectRequest(id);
-}
-
-function newRequest(req) {
-  return getRequestApp().newRequest(req);
-}
-
-function newActivity(req) {
-  return getRequestApp().newActivity(req);
-}
-function getDDNames() {
-  return getRequestApp().getDDNames();
-}
-
-function getDDList(DDList) {
-  return getRequestApp().getDDList(DDList);
-}
-
-function addToDDWithName(ddName, option) {
-  return getRequestApp().addToDDWithName(ddName, option);
-}
-
-function addNewRow(rowObj, sheetName) {
-  return getRequestApp().addNewRow(rowObj, sheetName);
-}
-function closedNotifications() {
-  return getRequestApp().closedNotifications();
-}
-
-function changeNumberFormat(sheetName, columnString, formatType) {
-  var ss = SpreadsheetApp.openByUrl(
-    "https://docs.googlhttps://docs.google.com/spreadsheets/d/1o3dDrE3layPQkpmrN2tYdiJ5OvRCjFKHn4czPiZPicY/edit#gid=0e.com/spreadsheets/d/15KRD5eLNMkOEfsoP-5FQybEnUoqtKGMLbR3ilId9V-I/edit"
-  );
-
-  var sheet = ss.getSheetByName(sheetName);
-  //  columnString ->  "B2:B"  formatType -> "@"
-  var column = sheet.getRange(columnString);
-  column.setNumberFormat(formatType);
-}
-function getDropDown() {
-  return getRequestApp().getDropDown();
-}
-
-function getAggregates() {
-  return getRequestApp().getAggregates();
-}
-
-function getFailureFrequency(location) {
-  var ss = SpreadsheetApp.openByUrl(
-    "https://docs.googlhttps://docs.google.com/spreadsheets/d/1o3dDrE3layPQkpmrN2tYdiJ5OvRCjFKHn4czPiZPicY/edit#gid=0e.com/spreadsheets/d/15KRD5eLNMkOEfsoP-5FQybEnUoqtKGMLbR3ilId9V-I/edit"
-  );
-
-  var sheet = ss.getSheetByName("PivotTables");
-  ss.getRangeByName("NR_QueryLocation").setValue(location);
-
-  var pt1 = sheet.getRange("h15").getDataRegion();
-
-  var ht1 = pt1.getNumRows();
-  var wt1 = pt1.getNumColumns();
-
-  pt1 = pt1.offset(1, 0, ht1 - 1, wt1);
-
-  return getObjectFromDataTable(pt1.getValues());
-}
-
-function getPivotTableObject() {
-  var ss = SpreadsheetApp.openByUrl(
-    "https://docs.googlhttps://docs.google.com/spreadsheets/d/1o3dDrE3layPQkpmrN2tYdiJ5OvRCjFKHn4czPiZPicY/edit#gid=0e.com/spreadsheets/d/15KRD5eLNMkOEfsoP-5FQybEnUoqtKGMLbR3ilId9V-I/edit"
-  );
-
-  var sheet = ss.getSheetByName("PivotTables");
-
-  var pt1 = sheet.getRange("b15").getDataRegion();
-  var pt2 = sheet.getRange("a3").getDataRegion();
-
-  var ht1 = pt1.getNumRows();
-  var wt1 = pt1.getNumColumns();
-  var wt2 = pt2.getNumColumns();
-  var ht2 = pt2.getNumRows();
-
-  pt1 = pt1.offset(1, 0, ht1 - 1, wt1 - 1);
-  pt2 = pt2.offset(2, 0, ht2 - 3, wt2 - 2);
-
-  var aggregates = {};
-  aggregates.officerWiseOpen = getObjectFromDataTable(pt1.getValues());
-  aggregates.locationWiseOpen = getObjectFromDataTable(pt2.getValues());
-
-  return aggregates;
-}
-
-function getObjectFromDataTable(arrayOfEntireData) {
-  var column_Names = _.head(arrayOfEntireData);
-
-  for (var i = 0; i < column_Names.length; i++) {
-    if (column_Names[i] === "") column_Names[i] = "Total";
-  }
-
-  var databodyArray = _.tail(arrayOfEntireData);
-  var tableItems = [];
-  for (let index = 0; index < databodyArray.length; index++) {
-    let obj = {};
-    databodyArray[index].forEach(function (element, i) {
-      {
-        obj[column_Names[i]] = element.toString();
-      }
-    });
-    tableItems.push(obj);
-  }
-
-  return tableItems;
-}
-
-function getImageWithNameInFolder() {
-  Logger.log(getAssets("Assets")["favicon.png"]);
-}
-
-function sendElksSMS(msg, contacts) {
-  var username = "u3b1b3f9c95936a9811614b27f539abe6";
-  var password = "81FA6D8CF5B4D84D81141AD6934155A1";
-
-  var sender = "+919624701102";
-  var auth = Utilities.base64Encode(username + ":" + password);
-
-  contacts = contacts.join();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var SSID = ss.getId();
+  var fileInDrive = DriveApp.getFolderById(SSID);
+  var parent_id = fileInDrive
+    .getParents()
+    .next()
+    .getId();
+  var par_fdr = DriveApp.getFolderById(parent_id); // replace the ID
+  var fdr_name = "Client Attachments";
   try {
-    UrlFetchApp.fetch("https://api.46elks.com/a1/SMS", {
-      method: "post",
-      headers: { Authorization: "Basic " + auth },
-      payload: {
-        from: sender,
-        to: contacts,
-        message: msg,
-      },
-    });
+    var newFdr = par_fdr.getFoldersByName(fdr_name).next();
+  } catch (e) {
+    var newFdr = par_fdr.createFolder(fdr_name);
+  }
 
+  var blob = Utilities.newBlob(
+    Utilities.base64Decode(obj.data),
+    obj.mimeType,
+    obj.fileName
+  );
+  // var folder = DriveApp.getFolderById(FOLDER_ID);
+  return newFdr.createFile(blob).getUrl();
+  // return DriveApp.createFile(blob).getUrl();
+}
+
+/**
+ * Method to get item in a table by it's id.
+ * @param {Integer} id: id in a table.
+ * @param {String} tableName: Name of Named Range or Table Name.
+ */
+
+function getRelatedTasks(clientId) {
+  return GetItemsWhere("tbl_task", [{ client_id: clientId }]);
+}
+
+function getClientInfo(clientId) {
+  // return GetItemsWhere("tbl_client_info", [{ client_id: clientId }])[0];
+  return GetItemById(clientId, "tbl_client_info");
+}
+function getClientInfo(clientId) {
+  var tbl = getTableByName("tbl_client_info", "id");
+  var queryItems = tbl.select([{ client_id: clientId }]);
+  if (queryItems.all() == null) {
+    return null;
+  } else {
+    var result = {};
+    result.header = tbl.header;
+    result.items = queryItems.all();
+    return result;
+  }
+}
+// function getClientNote(clientId) {
+//   // return GetItemsWhere("tbl_client_info", [{ client_id: clientId }])[0];
+//   return GetItemById(clientId, "tbl_client_notes");
+// }
+
+function createEntity(formDataObject, tableName) {
+  if (formDataObject.hasOwnProperty("id")) {
+    updateRecord(tableName, formDataObject);
     return true;
-  } catch (err) {
-    return false;
+  } else {
+    var table = getTableByName(tableName);
+
+    var newItem = table.add(formDataObject);
+    table.commit();
+    return newItem;
   }
 }
 
-function getActiveUserId() {
-  return Session.getActiveUser().getEmail();
-}
-
-function MailTriggerDaily() {
-  var ss = SpreadsheetApp.openByUrl(
-    "https://docs.googlhttps://docs.google.com/spreadsheets/d/1o3dDrE3layPQkpmrN2tYdiJ5OvRCjFKHn4czPiZPicY/edit#gid=0e.com/spreadsheets/d/15KRD5eLNMkOEfsoP-5FQybEnUoqtKGMLbR3ilId9V-I/edit"
-  );
-
-  var sheet = ss.getSheetByName("ActivityCodifications");
-  var lr = ss.getLastRow();
-  var values = sheet.getDataRange().getValues();
-  values.forEach(function (row, index) {
-    //    1st mail
-    if (row[11] < 11 && row[11] > 1 && row[13] == 0) {
-      var msg = draftMsg(row);
-      var contactKeys = [row[3], row[8], row[7]];
-      var mailIds = getMailIds(contactKeys);
-      sendMailForPMDue(mailIds, msg);
-      sheet.getRange(index + 1, 14).setValue(1);
-    }
-
-    //    2nd mail
-    if (row[11] < 2 && row[11] > -8 && row[13] == 1) {
-      var msg = draftMsg(row);
-      var contactKeys = [row[3], row[8], row[7], "DGM"];
-      var mailIds = getMailIds(contactKeys);
-      sendMailForPMDue(mailIds, msg);
-      sheet.getRange(index + 1, 14).setValue(2);
-    }
-
-    //    3rd mail
-    if (row[11] < -30 && row[13] == 2) {
-      var msg = draftMsg(row);
-      var contactKeys = [row[3], row[8], row[7], "DGM"];
-      var mailIds = getMailIds(contactKeys);
-      sendMailForPMDue(mailIds, msg);
-      sheet.getRange(index + 1, 14).setValue(3);
-    }
+function getStringifiedTables(tableNames) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var o = {};
+  tableNames.forEach((name) => {
+    var rng = ss.getRangeByName(name);
+    var vals = trimRangeRows(rng).getValues();
+    o[name] = vals;
   });
+
+  return JSON.stringify(o);
 }
 
-function sendMailForPMDue(mailIds, msg) {
-  // MailApp.sendEmail(
-  //   "sharma.pritam311@gmail.com",
-  //   "PM Activity Due Notification",
-  //   msg,
-  //   {
-  //     htmlBody: msg,
-  //     //          cc: mailIds.join(),
-  //   }
-  // );
-  MailApp.sendEmail(mailIds[1], "PM Activity Due Notification", msg, {
-    htmlBody: msg,
-    cc: mailIds.join(),
+function GetTable(tblName) {
+  return _getTableByNameWithidColumn(tblName, "normal");
+}
+function GetItemsWhere(id, sheetName) {
+  Tamotsu.initialize();
+  var Agent = Tamotsu.Table.define({ sheetName: sheetName });
+  return Agent.where({ client_id: id });
+}
+
+function GetTables(tblNames) {
+  // const tblNames = ['tbl_task_type','tbl_company_type'];
+  const tables = {};
+  tblNames.forEach((tblName) => {
+    tables[tblName] = _getTableByNameWithidColumn(tblName, "normal");
   });
+  // Logger.log(tables);
+  return tables;
+}
+function updateRecord(tableName, updateObject) {
+  var table = getTableByName(tableName, "id");
+  if (updateObject.hasOwnProperty("_showDetails")) {
+    delete updateObject["_showDetails"];
+  }
+  table.updateById(updateObject);
+  table.commit();
+  return true;
 }
 
-function getMailIds(contactKeys) {
-  var allContacts = [];
-  var mailIDs = [];
-  allContacts = getNotificationTableItems("Contacts");
-  let found = "";
-  contactKeys.forEach(function (key) {
-    found = allContacts.find(function (el) {
-      if (el.Name == key) {
-        return el;
+function deleteItem(tableName, id) {
+  var table = getTableByName(tableName, "id");
+  var item = table.getItemById(id);
+  table.deleteOne(item);
+  table.commit();
+  return true;
+}
+
+function getItemByIDDeep(tableName, id) {
+  var table = getTableByName(tableName, "id");
+  var item = table.getItemById(id);
+  var flds = item.table.header;
+  var relatedItems = {};
+
+  flds.forEach((fld) => {
+    if (fld.endsWith("_id")) {
+      var foreingKey = item.fields[fld]["value"];
+      var relatedTblName = "tbl_" + fld.replace("_id", "");
+      var relatedtable = getTableByName(relatedTblName, "id");
+      var relatedItem = relatedtable.getItemById(foreingKey);
+
+      const { fields } = relatedItem;
+      //  Logger.log(relatedItem);
+      var leanItem = {};
+      leanItem.item = {};
+      leanItem.header = {};
+      for (const [key, value] of Object.entries(fields)) {
+        // console.log(key, value);
+
+        leanItem.item[key] = value["value"];
       }
-    });
-    mailIDs.push(found.MailID);
-  });
-  return mailIDs;
-}
-
-function draftMsg(arrVal) {
-  var message = "";
-  message +=
-    "<p><b>Location : </b>" +
-    arrVal[4] +
-    "</p>" +
-    "<p><b>Activity Details : </b>" +
-    arrVal[2] +
-    "</p>" +
-    "<p><b>Target Equipment : </b>" +
-    arrVal[1] +
-    "</p>" +
-    "<p><b>Last Done On : </b>" +
-    arrVal[9] +
-    "</p>" +
-    "<p><b>Due On : </b>" +
-    arrVal[10] +
-    "</p>" +
-    "<p><b>Responsible Officer : </b>" +
-    arrVal[8] +
-    "</p><br><br>";
-  return message;
-}
-
-function RecordTableLength() {
-  var ss = SpreadsheetApp.openByUrl(
-    "https://docs.googlhttps://docs.google.com/spreadsheets/d/1o3dDrE3layPQkpmrN2tYdiJ5OvRCjFKHn4czPiZPicY/edit#gid=0e.com/spreadsheets/d/15KRD5eLNMkOEfsoP-5FQybEnUoqtKGMLbR3ilId9V-I/edit"
-  );
-  var sheet = ss.getSheetByName("Records");
-
-  return sheet.getLastRow();
-}
-
-function sendEmail(req, mailIds, obj) {
-  return getRequestApp().sendEmail(req, mailIds, obj);
-}
-function sendEmail2(req, mailIds, obj) {
-  return getRequestApp().sendEmail2(req, mailIds);
-}
-
-function sendNotifClosureMail(req, mailIds) {
-  var message = "Below mentioned notification has been marked closed";
-  var keys = [
-    "Date",
-    "Department",
-    "Location",
-    "Equipment_Name",
-    "Notification_Details",
-    "Action",
-    "Closed_By",
-  ];
-
-  for (let index = 0; index < keys.length; index++) {
-    message +=
-      "<p><b>" + keys[index] + " : " + "</b>" + req[keys[index]] + "</p>";
-  }
-
-  GmailApp.sendEmail(
-    mailIds[1],
-    // "sharma.pritam311@gmail.com",
-    "[ Mark Closed ] Equipment Failure Notification [ Mark Closed ]",
-    message,
-    {
-      htmlBody: message,
-      cc: mailIds.join(),
+      const { header } = relatedItem.table;
+      leanItem.header = header;
+      relatedItems[fld] = leanItem;
     }
-  );
-}
-function processEmail(obj) {
-  var files = obj.map(function (e) {
-    return Utilities.newBlob(
-      Utilities.base64Decode(e.data),
-      e.mimeType,
-      e.fileName
-    );
   });
-  var subject = "Subject";
-  var message = "Test";
-  var recipient = "sharma.pritam311@gmail.com";
-  GmailApp.sendEmail(recipient, subject, message, {
-    attachments: files,
-    htmlBody: message,
-    name: "Equipment Failure Test",
+  return relatedItems;
+}
+
+function PopulateRelatedFields() {
+  var tbl = getTableByName("tbl_task");
+
+  Logger.log(tbl.items);
+  var keys = Object.keys(tbl.items);
+
+  var arr = keys.map((key) => {
+    tbl.items[key];
+    Logger.log(tbl.items[key]);
   });
 }
-function getDownloadLinks() {
-  var ss = SpreadsheetApp.openByUrl(
-    "https://docs.googlhttps://docs.google.com/spreadsheets/d/1o3dDrE3layPQkpmrN2tYdiJ5OvRCjFKHn4czPiZPicY/edit#gid=0e.com/spreadsheets/d/15KRD5eLNMkOEfsoP-5FQybEnUoqtKGMLbR3ilId9V-I/edit"
-  );
-  var sheet = ss.getSheetByName("PivotTables");
-  var recordSheet = ss.getSheetByName("Records");
-  var activitieSheet = ss.getSheetByName("ActivityCodifications");
-  var rng_OfficerWise = sheet.getRange("b15").getDataRegion();
-  var rng_LocationWise = sheet.getRange("a3").getDataRegion();
-  var rng_Records = recordSheet.getDataRange();
-  var rng_Activities = activitieSheet.getDataRange();
 
-  var ht1 = rng_OfficerWise.getNumRows();
-  var wt1 = rng_OfficerWise.getNumColumns();
-  var wt2 = rng_LocationWise.getNumColumns();
-  var ht2 = rng_LocationWise.getNumRows();
-
-  rng_OfficerWise = rng_OfficerWise.offset(1, 0, ht1 - 1, wt1 - 1);
-  rng_LocationWise = rng_LocationWise.offset(2, 0, ht2 - 3, wt2 - 2);
-
-  var downloadObj = [];
-  var obj = {};
-  obj.name = "Notification Records";
-  obj.dataRange = rng_Records;
-
-  downloadObj.push(saveAsCSV(obj));
-
-  obj.name = "Officer wise Aggreagations";
-  obj.dataRange = rng_OfficerWise;
-  downloadObj.push(saveAsCSV(obj));
-
-  obj.name = "Location Wise Aggregations";
-  obj.dataRange = rng_LocationWise;
-  downloadObj.push(saveAsCSV(obj));
-
-  obj.name = "PM Activities";
-  obj.dataRange = rng_Activities;
-  downloadObj.push(saveAsCSV(obj));
-
-  return downloadObj;
-}
-
-function saveAsCSV(tableObj) {
-  var folder = DriveApp.getFolderById("1niks474hir-ZXTf-tK8HxS2nvxPEMy05");
-  // append ".csv" extension to the sheet name
-  fileName = tableObj.name + "-" + +new Date().getTime() + ".csv";
-  // convert all available sheet data to csv format
-  var csvFile = convertRangeToCsvFile_(fileName, tableObj.dataRange);
-  // create a file in the Docs List with the given name and the csv data
-  var file = folder.createFile(fileName, csvFile);
-  //File downlaod
-  var downloadURL = file.getDownloadUrl().slice(0, -8);
-  var obj = {};
-  obj.downloadURL = downloadURL;
-  obj.name = tableObj.name;
-  return obj;
-}
-
-function convertRangeToCsvFile_(csvFileName, dataRange) {
-  // get available data range in the spreadsheet
-  //  var activeRange = sheet.getDataRange();
-  try {
-    var data = dataRange.getValues();
-    var csvFile = undefined;
-
-    // loop through the data in the range and build a string with the csv data
-    if (data.length > 1) {
-      var csv = "";
-      for (var row = 0; row < data.length; row++) {
-        for (var col = 0; col < data[row].length; col++) {
-          if (data[row][col].toString().indexOf(",") != -1) {
-            data[row][col] = '"' + data[row][col] + '"';
-          }
-        }
-
-        // join each row's columns
-        // add a carriage return to end of each row, except for the last one
-        if (row < data.length - 1) {
-          csv += data[row].join(",") + "\r\n";
-        } else {
-          csv += data[row];
-        }
+function MarkComplete(item, reCreate) {
+  var taskTable = getTableByName("tbl_task", "id");
+  if (item._showDetails) {
+    delete item["_showDetails"];
+  }
+  if (item.id) {
+    item.status = "Completed";
+    taskTable.updateById(item);
+    if (reCreate) {
+      item.status = "Pending";
+      if (item.periodicity_id) {
+        var adder = _getTableByNameWithidColumn("tbl_periodicity", "indexed")[
+          item.periodicity_id
+        ]["value"];
+        adder = JSON.parse(adder);
+        const remindBeforeDays = item.deadline_date - item.reminder_date;
+        const nextDeadlineDate = moment(item.deadline_date).add(adder);
+        item.deadline_date = Number(nextDeadlineDate);
+        item.reminder_date = item.deadline_date - remindBeforeDays;
       }
-      csvFile = csv;
+      taskTable.add(item);
+      taskTable.commit();
     }
-    return csvFile;
-  } catch (err) {
-    Logger.log(err);
-    Browser.msgBox(err);
+    return item;
   }
 }
-function getAssets(driveDir) {
-  var folders = DriveApp.getFoldersByName(driveDir);
-  var folder = folders.hasNext() ? folders.next() : false;
-  var assets = {};
-  if (folder) {
-    var files = folder.getFiles();
-    while (files.hasNext()) {
-      var file = files.next();
-      var fileName = file.getName();
 
-      assets[fileName] =
-        "https://drive.google.com/uc?export=view&id=" + file.getId();
+function BulkMarkComplete(taskItems) {
+  taskItems.forEach((item) => {
+    MarkComplete(item, false);
+  });
+}
 
-      Logger.log(assets[fileName]);
-    }
-  }
-  return assets;
+function BulkDelete(items, tableName) {
+  var table = getTableByName(tableName, "id");
+  items.forEach((item) => {
+    var deleteItem = table.getItemById(item.id);
+    table.deleteOne(deleteItem);
+  });
+  // table.deleteMany(items);
+  table.commit();
+  return true;
+}
+function BulkDeleteByIds(ids, tableName) {
+  var table = getTableByName(tableName, "id");
+  ids.forEach((id) => {
+    var deleteItem = table.getItemById(id);
+    table.deleteOne(deleteItem);
+  });
+  // table.deleteMany(items);
+  table.commit();
+  return true;
+}
+
+function BulkUpdateByItems(items, tableName) {
+  var table = getTableByName(tableName, "id");
+  table.bulkUpdate(items);
+  table.commit();
+  return true;
+}
+
+function BulkUpdateByIds(ids, tableName, attributes) {
+  var table = getTableByName(tableName, "id");
+  table.bulkUpdateByIds(ids, attributes);
+  table.commit();
+  return true;
 }

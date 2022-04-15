@@ -9,7 +9,7 @@
     "build": "webpack --config ./client/webpack.dev.js ",
     "local": "webpack-dev-server --config ./client/webpack.dev.js --open",
     "prod": "webpack --config ./client/webpack.prod.js ",
-    "deploy": "npm run prod &&  npm run gas && cd deploy/gas && rm app.bundle.js && clasp push && clasp open --webapp"
+    "deploy": "npm run prod &&  npm run gas && cd deploy/gas && rm app.bundle.js && clasp push "
   },
   "keywords": [],
   "author": "",
@@ -27,9 +27,9 @@
     "css-loader": "^2.1.1",
     "html-webpack-inline-source-plugin": "0.0.10",
     "html-webpack-plugin": "^3.2.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.6.0",
     "mocha": "^6.1.3",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.14.1",
     "popper.js": "^1.16.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
@@ -46,12 +46,25 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.0",
+    "@braid/vue-formulate": "^2.5.2",
     "@popperjs/core": "^2.4.0",
     "@types/google-apps-script": "^1.0.10",
+    "bootstrap-icons": "^1.5.0",
     "bootstrap-vue": "^2.13.0",
-    "lodash": "^4.17.11",
+    "export-from-json": "^1.4.1",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
+    "remove-files-webpack-plugin": "^1.5.0",
+    "vue-fab": "^2.3.1",
     "vue-flatpickr-component": "^8.1.5",
+    "vue-float-action-button": "^0.7.9",
+    "vue-form-generator": "^2.3.4",
+    "vue-html-to-paper": "^1.4.4",
+    "vue-json-excel": "^0.3.0",
+    "vue-multiselect": "^2.1.6",
+    "vue-select": "^3.18.3",
+    "vuejs-dialog": "^1.4.2",
+    "vuejs-smart-table": "0.0.8",
     "vuex": "^3.1.2"
   }
 }

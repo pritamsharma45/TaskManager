@@ -1,25 +1,22 @@
 import Vue from "vue";
 import Router from "vue-router";
 import CreateEntity from "./pages/CreateEntity.vue";
-
-import InvoiceModal from "./components/InvoiceModal.vue";
-import Preference from "./pages/Preference.vue";
-import Meetings from "./pages/Meetings.vue";
 import AllTasks from "./pages/ListAllTasks.vue";
-import AllReports from "./pages/AllReports.vue";
-// import AllUsers from "./pages/ListAllUsers.vue";
+import SmartForm from "./components/SmartForm.vue";
+import InvoiceModal from "./components/InvoiceModal.vue";
 import AllTimesheets from "./pages/ListAllTimesheets.vue";
+import AllReports from "./pages/AllReports.vue";
 import AllClients from "./pages/ListAllClients.vue";
 import Admin from "./pages/Admin.vue";
 import Expired from "./pages/Expired.vue";
-
 import Dropdowns from "./pages/Dropdowns.vue";
-import GenericList from "./components/GenericList.vue";
+import Preference from "./pages/Preference.vue";
 
 Vue.use(Router);
 
 export default new Router({
   mode: "history",
+
   routes: [
     {
       path: "/dropdowns",
@@ -47,11 +44,6 @@ export default new Router({
       props: true,
     },
     {
-      path: "/AllReports",
-      name: "AllReports",
-      component: AllReports,
-    },
-    {
       path: "/CustomInvoice",
       name: "CustomInvoice",
       component: InvoiceModal,
@@ -63,15 +55,14 @@ export default new Router({
       component: Preference,
     },
     {
-      path: "/Meetings",
-      name: "Meetings",
-      component: Meetings,
-    },
-
-    {
       path: "/AllTasks",
       name: "AllTasks",
       component: AllTasks,
+    },
+    {
+      path: "/AllReports",
+      name: "AllReports",
+      component: AllReports,
     },
     {
       path: "/",
@@ -82,11 +73,6 @@ export default new Router({
       name: "AllTasks",
       component: AllTasks,
     },
-    // {
-    //   path: "/AllUsers",
-    //   name: "AllUsers",
-    //   component: AllUsers,
-    // },
     {
       path: "/AllClients",
       name: "AllClients",
@@ -107,25 +93,17 @@ export default new Router({
       name: "Expired",
       component: Expired,
     },
+    {
+      path: "/SmartForm",
+      name: "SmartForm",
+      component: SmartForm,
+    },
     // {
     //   path: "/ManageUsers",
     //   name: "ManageUsers",
     //   component: () => import("./components/GenericList.vue"),
     //   props: true,
     // },
-    // {
-    //   path: "/EditTask/:task",
-    //   name: "EditTask",
-    //   component: EditTask,
-    //   props: true,
-    // },
-    // {
-    //   path: "/EditTimesheet/:timesheet",
-    //   name: "EditTimesheet",
-    //   component: EditTimesheet,
-    //   props: true,
-    // },
-
     // {
     //   path: "/settings",
     //   name: "Dropdowns",

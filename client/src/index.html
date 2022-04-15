@@ -6,44 +6,19 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
+
     <title>My Appscript App</title>
 
     <base target="_top" />
-
-    <script>
-      initApp = function() {
-        google.script.run
-          .withSuccessHandler(function(user) {
-            document.getElementById("account-details-2").textContent = user;
-            document.getElementById("userID-1").textContent = user;
-            document.getElementById("userID-2").textContent = user;
-          })
-          .getActiveUserId();
-      };
-      window.addEventListener("load", function() {
-        initApp();
-      });
-    </script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
   </head>
+
   <body>
     <div id="req_app">
       <app-main></app-main>
     </div>
-
-    <!-- <script>
-      document
-        .getElementById("signOut")
-        .addEventListener("click", function(event) {
-          firebase.auth().signOut();
-          reload();
-        });
-      function reload() {
-        google.script.run
-          .withSuccessHandler(function(url) {
-            window.open(url, "_top");
-          })
-          .webAppUrl();
-      }
-    </script> -->
   </body>
 </html>
